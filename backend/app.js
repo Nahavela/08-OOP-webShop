@@ -1,8 +1,19 @@
 const express = require ('express');
 //const bodyParser = require ('body-parser');
 const mongoose = require('mongoose');
-const Thing = require('./models/thing');
-const app = express ();
+const app = express (); 
+const stuffRoutes = require('./routes/stuff');
+const pageRoutes = require('./routes/frontend');
+let path = require('path');
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+//setup public folder
+app.use(express.static('./public'));
+
+
 
 mongoose.connect('mongodb+srv://user:A6ugi9GkeMK4FuZd@cluster0.ra4ue.gcp.mongodb.net/freshshop?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -23,21 +34,15 @@ app.use ((req, res, next) => {
   );
   next ();
 });
-
+  
 //app.use (bodyParser.json ());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/api/stuff', stuffRoutes);
+app.use('/', pageRoutes);
 
-
-app.post('/api/stuff', (req, res, next) => {
-    const thing = new Thing({
-    ...req.body
-    });
-    thing.save()
-        .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-        .catch(error => res.status(400).json({ error }));
-    });
-
-
+app.get('/',function (req, res) {
+  res.render('pages/index')
+});
 
 module.exports = app;
