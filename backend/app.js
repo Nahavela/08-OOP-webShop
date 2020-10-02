@@ -15,7 +15,7 @@ app.use(express.static('./public'));
 
 
 
-mongoose.connect('mongodb+srv://user:A6ugi9GkeMK4FuZd@cluster0.ra4ue.gcp.mongodb.net/freshshop?retryWrites=true&w=majority',
+mongoose.connect('',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
