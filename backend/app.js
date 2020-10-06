@@ -4,10 +4,13 @@ const mongoose = require('mongoose');
 const app = express (); 
 const stuffRoutes = require('./routes/stuff');
 const pageRoutes = require('./routes/frontend');
-let path = require('path');
+const userRoutes = require('./routes/user');
+const cookieParser = require('cookie-parser')
+//let path = require('path');
+mongoose.set('useCreateIndex', true);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //setup public folder
@@ -37,12 +40,13 @@ app.use ((req, res, next) => {
   
 //app.use (bodyParser.json ());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cookieParser());
 app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 app.use('/', pageRoutes);
 
 app.get('/',function (req, res) {
-  res.render('pages/index')
+  res.render('pages/index', {menuId:'Home'})
 });
 
 module.exports = app;
