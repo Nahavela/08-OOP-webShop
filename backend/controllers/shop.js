@@ -34,4 +34,11 @@ exports.deleteThing = (req, res, next) => {
 		.catch((error) => res.status(400).json({ error }));
 };
 
+exports.getCart = (req, res) => {res.render('pages/cart', {page: 'Cart', menuId:'Shop'})}
+exports.getCheckout = (req, res) => {res.render('pages/checkout', {page: 'Checkout', menuId:'Shop'})}
+exports.getDetail = (req, res) => {res.render('pages/shop-detail', {page: 'Shop Detail', menuId:'Shop'})}
+exports.getShop = (req, res) => {res.render('pages/shop', {page: 'Shop', menuId:'Shop'})}
+exports.getWishlist = (req, res) => {res.render('pages/wishlist', {page: 'Wishlist', menuId:'Shop'})}
+
+
 

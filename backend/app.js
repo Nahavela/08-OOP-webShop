@@ -2,10 +2,15 @@ const express = require ('express');
 //const bodyParser = require ('body-parser');
 const mongoose = require('mongoose');
 const app = express (); 
-const stuffRoutes = require('./routes/stuff');
+
+const shopRoutes = require('./routes/shop');
 const pageRoutes = require('./routes/frontend');
 const userRoutes = require('./routes/user');
-const cookieParser = require('cookie-parser')
+const sessionRoutes = require('./routes/session')
+
+const cookieParser = require('cookie-parser');
+const methodOverride = require("method-override");
+
 //let path = require('path');
 mongoose.set('useCreateIndex', true);
 
@@ -17,13 +22,12 @@ app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
 
-
+// Connection BD
 mongoose.connect('mongodb+srv://user:A6ugi9GkeMK4FuZd@cluster0.ra4ue.gcp.mongodb.net/freshshop?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
-
 
 app.use ((req, res, next) => {
   res.setHeader ('Access-Control-Allow-Origin', '*');
@@ -38,15 +42,20 @@ app.use ((req, res, next) => {
   next ();
 });
   
-//app.use (bodyParser.json ());
+
+app.use(methodOverride("_method"));
+
+
+// app.use (bodyParser.json ());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/api/stuff', stuffRoutes);
-app.use('/api/auth', userRoutes);
-app.use('/', pageRoutes);
 
-app.get('/',function (req, res) {
-  res.render('pages/index', {menuId:'Home'})
-});
+// Vers ROUTES
+app.use('/api/shop', shopRoutes);
+app.use('/api/user', userRoutes);
+app.use('/', pageRoutes);
+app.use('/session', sessionRoutes);
+
+
 
 module.exports = app;
