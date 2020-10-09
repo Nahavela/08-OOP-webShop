@@ -19,4 +19,11 @@ router.get('/userinfo', pageCtrl.userInfoPage);
 router.get('/edit-user', pageCtrl.getEditUser);
 router.get('/edit-pswd', pageCtrl.getEditPswd);
 
+router.get('/cart', pageCtrl.getCart);
+router.get('/checkout', pageCtrl.getCheckout);
+router.get('/shop-detail', pageCtrl.getDetail);
+router.get('/shop', pageCtrl.getShop);
+router.get('/wishlist', pageCtrl.getWishlist);
+router.get('/addproduct', pageCtrl.getAddProduct);
+
 module.exports = router;
